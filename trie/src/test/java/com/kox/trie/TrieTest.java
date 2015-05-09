@@ -1,5 +1,7 @@
 package com.kox.trie;
 
+import com.kox.stuff.Dictionary2;
+import com.kox.stuff.Trie;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,14 +14,16 @@ import java.util.Set;
  */
 public class TrieTest {
 
-    private static TrieImpl<String> trieImpl = new TrieImpl<String>();
+    private static Dictionary2<String> trie = new Trie<String>();
 
     @BeforeClass
     public static void init() {
         int totalWords = 0;
-        totalWords += addFile(trieImpl, "romeo", "Romeo and Juliet" );
-        totalWords += addFile(trieImpl, "hamlet", "Hamlet" );
-        totalWords += addFile(trieImpl, "unibomber", "Unibomber Manifesto" );
+        totalWords += addFile(trie, "romeo", "Romeo and Juliet" );
+        totalWords += addFile(trie, "hamlet", "Hamlet" );
+        totalWords += addFile(trie, "unibomber", "Unibomber Manifesto" );
+        totalWords += addFile(trie, "jameskingbible", "Biblerino" );
+        totalWords += addFile(trie, "warandpeace", "War and Peace" );
         System.out.println("Total words indexed: " + totalWords);
     }
 
@@ -40,17 +44,25 @@ public class TrieTest {
 
     @Test
     public void testAll() {
-        timedTest("the");
+        timedTest("of");
+    }
+
+    @Test
+    public void testSnoopDog() {
+        timedTest("smoke");
+        timedTest("weed");
+        timedTest("every");
+        timedTest("day");
     }
 
     private void timedTest(String searchString) {
         long start = System.nanoTime();
-        Set<String> val = trieImpl.get(searchString);
+        Set<String> val = trie.getAc(searchString);
         long durr = System.nanoTime() - start;
         System.out.println( searchString + "  -- " + val + " - " + durr / 1000000.0 + " ms");
     }
 
-    private static int addFile( TrieImpl trieImpl, String path, String ref ) {
+    private static int addFile( Dictionary2 dictionary, String path, String ref ) {
         try {
             final BufferedReader br = new BufferedReader(new FileReader("assets/" + path));
             StringBuilder sb = new StringBuilder();
@@ -65,7 +77,7 @@ public class TrieTest {
 
             int count = 0;
             for (String s : tokens) {
-                trieImpl.add(s, ref);
+                dictionary.add(s, ref);
                 count++;
             }
             return count;
