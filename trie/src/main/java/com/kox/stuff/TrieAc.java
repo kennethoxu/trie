@@ -46,8 +46,9 @@ public class TrieAc<T> implements DictionaryAc<T> {
         currNode.addReference( ref );
     }
 
-    public void addSubStrings(String val, T ref) {
-        for( int i = 1; i<val.length(); i++ ) {
+    @Override
+    public void addSuffixes(String val, T ref) {
+        for( int i = 0; i<val.length(); i++ ) {
             add( val.substring(i), ref );
         }
     }

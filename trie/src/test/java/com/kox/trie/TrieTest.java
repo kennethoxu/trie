@@ -2,6 +2,7 @@ package com.kox.trie;
 
 import com.kox.stuff.DictionaryAc;
 import com.kox.stuff.TrieAc;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,10 +15,15 @@ import java.util.Set;
  */
 public class TrieTest {
 
-    private static DictionaryAc<String> trie = new TrieAc<String>();
+    private static DictionaryAc<String> trie;
+    private static long baseHeapSize;
 
     @BeforeClass
     public static void init() {
+
+        baseHeapSize = Runtime.getRuntime().totalMemory();
+        trie = new TrieAc<String>();
+
         int totalWords = 0;
         long start = System.nanoTime();
         totalWords += addFile(trie, "romeo", "Romeo and Juliet" );
@@ -28,6 +34,12 @@ public class TrieTest {
         totalWords += addFile(trie, "titanicscreenplay", "Titanic" );
         long durr = System.nanoTime() - start;
         System.out.println("Total words indexed: " + totalWords + " in " + durr / 1000000000.0 + " s");
+    }
+
+    @AfterClass
+    public static void cleanup() {
+        long heapSizeAfter = Runtime.getRuntime().totalMemory();
+        System.out.println( "heapSize " + (heapSizeAfter - baseHeapSize)/1000000L + " MB"  );
     }
 
     @Test
@@ -85,7 +97,7 @@ public class TrieTest {
 
             int count = 0;
             for (String s : tokens) {
-                ((TrieAc)dictionary).addSubStrings(s, ref);
+                dictionary.addSuffixes(s, ref);
                 count++;
             }
             return count;
