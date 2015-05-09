@@ -1,7 +1,7 @@
 package com.kox.trie;
 
-import com.kox.stuff.Dictionary2;
-import com.kox.stuff.Trie;
+import com.kox.stuff.DictionaryAc;
+import com.kox.stuff.TrieAc;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,17 +14,20 @@ import java.util.Set;
  */
 public class TrieTest {
 
-    private static Dictionary2<String> trie = new Trie<String>();
+    private static DictionaryAc<String> trie = new TrieAc<String>();
 
     @BeforeClass
     public static void init() {
         int totalWords = 0;
+        long start = System.nanoTime();
         totalWords += addFile(trie, "romeo", "Romeo and Juliet" );
         totalWords += addFile(trie, "hamlet", "Hamlet" );
         totalWords += addFile(trie, "unibomber", "Unibomber Manifesto" );
         totalWords += addFile(trie, "jameskingbible", "Biblerino" );
         totalWords += addFile(trie, "warandpeace", "War and Peace" );
-        System.out.println("Total words indexed: " + totalWords);
+        totalWords += addFile(trie, "titanicscreenplay", "Titanic" );
+        long durr = System.nanoTime() - start;
+        System.out.println("Total words indexed: " + totalWords + " in " + durr / 1000000000.0 + " s");
     }
 
     @Test
@@ -53,6 +56,11 @@ public class TrieTest {
         timedTest("weed");
         timedTest("every");
         timedTest("day");
+        timedTest("420");
+        timedTest("blaze");
+        timedTest("it");
+        timedTest("yolo");
+        timedTest("swag");
     }
 
     private void timedTest(String searchString) {
@@ -62,7 +70,7 @@ public class TrieTest {
         System.out.println( searchString + "  -- " + val + " - " + durr / 1000000.0 + " ms");
     }
 
-    private static int addFile( Dictionary2 dictionary, String path, String ref ) {
+    private static int addFile( DictionaryAc dictionary, String path, String ref ) {
         try {
             final BufferedReader br = new BufferedReader(new FileReader("assets/" + path));
             StringBuilder sb = new StringBuilder();
@@ -77,7 +85,7 @@ public class TrieTest {
 
             int count = 0;
             for (String s : tokens) {
-                dictionary.add(s, ref);
+                ((TrieAc)dictionary).addSubStrings(s, ref);
                 count++;
             }
             return count;

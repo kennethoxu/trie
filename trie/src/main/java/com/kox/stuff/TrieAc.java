@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by Aleesa on 4/6/2015.
  */
-public class Trie<T> implements Dictionary2<T> {
+public class TrieAc<T> implements DictionaryAc<T> {
 
     /**
      * Reserved char for the root that has no meaning
@@ -13,7 +13,7 @@ public class Trie<T> implements Dictionary2<T> {
     private static final char ROOT_CHAR = '$';
     private final RefNode root;
 
-    public Trie() {
+    public TrieAc() {
         root = new RefNode(ROOT_CHAR);
     }
 
@@ -44,6 +44,12 @@ public class Trie<T> implements Dictionary2<T> {
         }
 
         currNode.addReference( ref );
+    }
+
+    public void addSubStrings(String val, T ref) {
+        for( int i = 1; i<val.length(); i++ ) {
+            add( val.substring(i), ref );
+        }
     }
 
     public Set<T> getAc(String s) {

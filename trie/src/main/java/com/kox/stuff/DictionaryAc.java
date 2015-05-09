@@ -10,7 +10,7 @@ import java.util.Set;
  *
  *
  */
-public interface Dictionary2<T> {
+public interface DictionaryAc<T> {
 
     /**
      * Adds a specific string to the trie, with the reference ref attached to that String

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * N-ary ref node
  * Created by Aleesa on 4/6/2015.
  */
 public class RefNode<T> {
