@@ -1,4 +1,4 @@
-package com.kox;
+package com.kox.trie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class TrieNode<T> {
 
-    private final Character value;
-    private List<TrieNode> children = new ArrayList<TrieNode>();
+    private final char value;
+    private final List<TrieNode> children = new ArrayList<TrieNode>();
     private List<T> references;
 
-    public TrieNode( Character c ) {
+    public TrieNode( char c ) {
         this.value = c;
     }
 
@@ -27,7 +27,7 @@ public class TrieNode<T> {
         references.add( ref );
     }
 
-    public Character getValue() {
+    public char getValue() {
         return value;
     }
 

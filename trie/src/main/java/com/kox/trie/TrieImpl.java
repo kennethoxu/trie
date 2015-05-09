@@ -1,16 +1,20 @@
-package com.kox;
+package com.kox.trie;
 
 import java.util.*;
 
 /**
  * Created by Aleesa on 4/6/2015.
  */
-public class Trie<T> {
+public class TrieImpl<T> implements Trie<T> {
 
-    private TrieNode root;
+    /**
+     * Reserved char for the root that has no meaning
+     */
+    private static final char ROOT_CHAR = '$';
+    private final TrieNode root;
 
-    public Trie() {
-        root = new TrieNode(null);
+    public TrieImpl() {
+        root = new TrieNode(ROOT_CHAR);
     }
 
     public void add(String val, T ref) {
@@ -19,12 +23,12 @@ public class Trie<T> {
         }
 
         TrieNode currNode = root;
-        for( Character c : val.toCharArray() ) {
+        for( char c : val.toCharArray() ) {
             List<TrieNode> nextChildren = currNode.getChildren();
 
             TrieNode foundNode = null;
             for( TrieNode nextNode : nextChildren ) {
-                if( nextNode.getValue().equals(c) ) {
+                if( nextNode.getValue() == c ) {
                     foundNode = nextNode;
                     break;
                 }
@@ -47,14 +51,15 @@ public class Trie<T> {
             return null;
         }
 
-        boolean found = true;
+        s = s.toLowerCase(Locale.getDefault());
 
+        boolean found = true;
         TrieNode currNode = root;
-        for( Character c : s.toCharArray()) {
+        for( char c : s.toCharArray()) {
             List<TrieNode> nextChildren = currNode.getChildren();
             TrieNode foundNode = null;
             for( TrieNode nextNode : nextChildren ) {
-                if( nextNode.getValue().equals(c) ) {
+                if( nextNode.getValue() == c ) {
                     foundNode = nextNode;
                     break;
                 }
